@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuizoro Partner Portal</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔗</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 Nuizoro Partner Portal</h1>
+        
+        <p class="subtitle">คลิกที่ลิงก์ด้านล่างเพื่อเข้าสู่ระบบ Nuizoro</p>
+        
+        <a href="https://nuizoro.xyz/deeplink?token=xxx" class="deeplink-button" target="_blank">
+            <span class="status-indicator status-pending"></span>
+            เข้าสู่ Nuizoro Portal
+        </a>
+        
+        <div class="info">
+            <h3>📋 ข้อมูลการเชื่อมต่อ</h3>
+            <p><strong>Deep Link URL:</strong></p>
+            <div class="token-info">
+                https://nuizoro.xyz/deeplink?token=xxx
+            </div>
+            <p class="note">* กรุณาแทนที่ "xxx" ด้วย token จริงของคุณ</p>
+        </div>
+
+        <div class="instructions">
+            <h4>📝 วิธีการใช้งาน</h4>
+            <ul>
+                <li>คลิกปุ่ม "แก้ไข Token" เพื่อใส่ token ของคุณ</li>
+                <li>หรือ double-click ที่ปุ่มสีน้ำเงินเพื่อแก้ไข token</li>
+                <li>Token จะถูกบันทึกไว้ใน browser ของคุณ</li>
+                <li>คลิกปุ่มสีน้ำเงินเพื่อเปิดลิงก์ใน tab ใหม่</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- รวม JavaScript สำหรับจัดการ Deeplink -->
+    <script src="deeplink-manager.js"></script>
+</body>
+</html>
