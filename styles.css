@@ -103,6 +103,39 @@ h1 {
     font-size: 1.2rem;
 }
 
+/* Huawei Button */
+.huawei-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 18px 36px;
+    background: linear-gradient(45deg, #ff6b35, #f7931e);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.huawei-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+    background: linear-gradient(45deg, #e55a2b, #e8851c);
+}
+
+.huawei-button:active {
+    transform: translateY(0);
+}
+
+.huawei-icon {
+    font-size: 1.2rem;
+}
+
 .info {
     margin-top: 40px;
     padding: 25px;
@@ -215,7 +248,8 @@ h1 {
     }
     
     .deeplink-button,
-    .kbank-button {
+    .kbank-button,
+    .huawei-button {
         padding: 15px 25px;
         font-size: 16px;
     }

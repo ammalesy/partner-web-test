@@ -43,95 +43,6 @@ class DeeplinkManager {
         window.open(url, '_blank', 'noopener,noreferrer');
     }
 
-    // Auto redirect หลังจาก page load เสร็จ 2 วินาที
-    autoRedirect() {
-        try {
-            // สำหรับ Apple Universal Links จำเป็นต้องใช้ user interaction
-            // ลองใช้หลายวิธีเพื่อจำลอง user click
-            const linkButton = document.querySelector('.deeplink-button');
-            if (linkButton) {
-                // วิธีที่ 1: ใช้ MouseEvent เพื่อจำลอง user click ที่สมจริง
-                this.simulateRealClick(linkButton);
-            } else {
-                // ถ้าไม่มีปุ่ม ให้สร้าง hidden link แล้วคลิก
-                this.createAndClickHiddenLink();
-            }
-        } catch (error) {
-            // เงียบๆ ไม่แสดง error
-            console.debug('Auto redirect failed silently:', error);
-        }
-    }
-
-    // จำลอง user click ที่สมจริงด้วย MouseEvent
-    simulateRealClick(element) {
-        // สร้าง MouseEvent ที่สมจริง
-        const mouseEvent = new MouseEvent('click', {
-            view: window,
-            bubbles: true,
-            cancelable: true,
-            clientX: element.getBoundingClientRect().left + element.offsetWidth / 2,
-            clientY: element.getBoundingClientRect().top + element.offsetHeight / 2
-        });
-        
-        // dispatch event
-        element.dispatchEvent(mouseEvent);
-        
-        // สำรองด้วยวิธีเดิม
-        setTimeout(() => {
-            element.click();
-        }, 50);
-    }
-
-    // สร้าง hidden link และคลิกเพื่อให้ Universal Link ทำงาน
-    createAndClickHiddenLink() {
-        const url = this.generateDeeplinkUrl(this.currentToken);
-        const hiddenLink = document.createElement('a');
-        hiddenLink.href = url;
-        hiddenLink.target = '_blank';
-        hiddenLink.rel = 'noopener noreferrer';
-        
-        // ทำให้ link มองเห็นได้เล็กน้อย แต่ซ่อนไว้
-        hiddenLink.style.cssText = `
-            position: absolute;
-            top: -1000px;
-            left: -1000px;
-            width: 1px;
-            height: 1px;
-            opacity: 0;
-        `;
-        
-        document.body.appendChild(hiddenLink);
-        
-        // ใช้หลายวิธีจำลอง click
-        this.simulateRealClick(hiddenLink);
-        
-        // ลบ element ออกหลังจากใช้งาน
-        setTimeout(() => {
-            if (document.body.contains(hiddenLink)) {
-                document.body.removeChild(hiddenLink);
-            }
-        }, 500);
-    }
-
-    // รอให้ page load เสร็จ 100% แล้วเริ่ม timer
-    initAutoRedirect() {
-        // ตรวจสอบว่า page load เสร็จหรือยัง
-        if (document.readyState === 'complete') {
-            this.startAutoRedirectTimer();
-        } else {
-            window.addEventListener('load', () => {
-                this.startAutoRedirectTimer();
-            });
-        }
-    }
-
-    // เริ่ม timer 2 วินาที สำหรับ auto redirect
-    startAutoRedirectTimer() {
-        setTimeout(() => {
-            this.autoRedirect();
-        }, 2000); // 2 วินาที
-    }
-
     // ตรวจสอบ token ว่าเป็น format ที่ถูกต้อง
     validateToken(token) {
         return token && token.trim().length > 0 && token !== 'xxx';
@@ -161,9 +72,6 @@ class DeeplinkManager {
 
         // เพิ่ม event listeners
         this.setupEventListeners();
-        
-        // เริ่ม auto redirect timer
-        this.initAutoRedirect();
     }
 
     // ตั้งค่า event listeners
