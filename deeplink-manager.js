@@ -6,6 +6,73 @@ class DeeplinkManager {
         this.currentToken = this.getTokenFromStorage() || this.defaultToken;
     }
 
+    // ตรวจสอบว่าเป็นอุปกรณ์ Huawei หรือไม่
+    isHuaweiDevice() {
+        const userAgent = navigator.userAgent.toLowerCase();
+        const vendor = navigator.vendor?.toLowerCase() || '';
+        
+        // ตรวจสอบจาก User Agent
+        const huaweiKeywords = [
+            'huawei',
+            'honor',
+            'hms',
+            'harmonyos',
+            'emui',
+            'hisilicon',
+            'kirin'
+        ];
+        
+        // ตรวจสอบจาก User Agent string
+        const isHuaweiUA = huaweiKeywords.some(keyword => 
+            userAgent.includes(keyword) || vendor.includes(keyword)
+        );
+        
+        // ตรวจสอบจาก platform หรือ hardware information (ถ้ามี)
+        const platform = navigator.platform?.toLowerCase() || '';
+        const isHuaweiPlatform = huaweiKeywords.some(keyword => 
+            platform.includes(keyword)
+        );
+        
+        // ตรวจสอบว่ามี Huawei Mobile Services (HMS) หรือไม่
+        const hasHMS = typeof window.HMSCore !== 'undefined' || 
+                      typeof window.huawei !== 'undefined' ||
+                      typeof window.hms !== 'undefined';
+        
+        console.log('Device Detection Debug:', {
+            userAgent: userAgent,
+            vendor: vendor,
+            platform: platform,
+            isHuaweiUA: isHuaweiUA,
+            isHuaweiPlatform: isHuaweiPlatform,
+            hasHMS: hasHMS
+        });
+        
+        return isHuaweiUA || isHuaweiPlatform || hasHMS;
+    }
+
+    // แสดงหรือซ่อนปุ่ม Huawei ตามอุปกรณ์
+    toggleHuaweiElements() {
+        const isHuawei = this.isHuaweiDevice();
+        
+        const huaweiButton = document.getElementById('huawei-button');
+        const huaweiInfo = document.getElementById('huawei-info');
+        const huaweiInstruction = document.getElementById('huawei-instruction');
+        
+        if (isHuawei) {
+            if (huaweiButton) huaweiButton.style.display = 'inline-flex';
+            if (huaweiInfo) huaweiInfo.style.display = 'block';
+            if (huaweiInstruction) huaweiInstruction.style.display = 'list-item';
+            
+            console.log('✅ Huawei device detected - showing Huawei elements');
+        } else {
+            if (huaweiButton) huaweiButton.style.display = 'none';
+            if (huaweiInfo) huaweiInfo.style.display = 'none';
+            if (huaweiInstruction) huaweiInstruction.style.display = 'none';
+            
+            console.log('❌ Non-Huawei device - hiding Huawei elements');
+        }
+    }
+
     // สร้าง URL พร้อม token
     generateDeeplinkUrl(token = this.currentToken) {
         return `${this.baseUrl}?token=${encodeURIComponent(token)}`;
@@ -69,6 +136,9 @@ class DeeplinkManager {
         if (this.currentToken && this.currentToken !== 'xxx') {
             this.updateTokenInPage(this.currentToken);
         }
+
+        // ตรวจสอบและแสดง/ซ่อนปุ่ม Huawei
+        this.toggleHuaweiElements();
 
         // เพิ่ม event listeners
         this.setupEventListeners();
