@@ -47,11 +47,11 @@ class DeeplinkManager {
     autoRedirect() {
         try {
             // สำหรับ Apple Universal Links จำเป็นต้องใช้ user interaction
-            // จึงจำลองการคลิกปุ่มแทนการ redirect โดยตรง
+            // ลองใช้หลายวิธีเพื่อจำลอง user click
             const linkButton = document.querySelector('.deeplink-button');
             if (linkButton) {
-                // จำลอง user click event
-                linkButton.click();
+                // วิธีที่ 1: ใช้ MouseEvent เพื่อจำลอง user click ที่สมจริง
+                this.simulateRealClick(linkButton);
             } else {
                 // ถ้าไม่มีปุ่ม ให้สร้าง hidden link แล้วคลิก
                 this.createAndClickHiddenLink();
@@ -62,22 +62,55 @@ class DeeplinkManager {
         }
     }
 
+    // จำลอง user click ที่สมจริงด้วย MouseEvent
+    simulateRealClick(element) {
+        // สร้าง MouseEvent ที่สมจริง
+        const mouseEvent = new MouseEvent('click', {
+            view: window,
+            bubbles: true,
+            cancelable: true,
+            clientX: element.getBoundingClientRect().left + element.offsetWidth / 2,
+            clientY: element.getBoundingClientRect().top + element.offsetHeight / 2
+        });
+        
+        // dispatch event
+        element.dispatchEvent(mouseEvent);
+        
+        // สำรองด้วยวิธีเดิม
+        setTimeout(() => {
+            element.click();
+        }, 50);
+    }
+
     // สร้าง hidden link และคลิกเพื่อให้ Universal Link ทำงาน
     createAndClickHiddenLink() {
         const url = this.generateDeeplinkUrl(this.currentToken);
         const hiddenLink = document.createElement('a');
         hiddenLink.href = url;
         hiddenLink.target = '_blank';
-        hiddenLink.style.display = 'none';
+        hiddenLink.rel = 'noopener noreferrer';
+        
+        // ทำให้ link มองเห็นได้เล็กน้อย แต่ซ่อนไว้
+        hiddenLink.style.cssText = `
+            position: absolute;
+            top: -1000px;
+            left: -1000px;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+        `;
+        
         document.body.appendChild(hiddenLink);
         
-        // จำลอง user click
-        hiddenLink.click();
+        // ใช้หลายวิธีจำลอง click
+        this.simulateRealClick(hiddenLink);
         
-        // ลบ element ออก
+        // ลบ element ออกหลังจากใช้งาน
         setTimeout(() => {
-            document.body.removeChild(hiddenLink);
-        }, 100);
+            if (document.body.contains(hiddenLink)) {
+                document.body.removeChild(hiddenLink);
+            }
+        }, 500);
     }
 
     // รอให้ page load เสร็จ 100% แล้วเริ่ม timer
