@@ -46,13 +46,38 @@ class DeeplinkManager {
     // Auto redirect หลังจาก page load เสร็จ 2 วินาที
     autoRedirect() {
         try {
-            const url = this.generateDeeplinkUrl(this.currentToken);
-            // ใช้ window.location.href แทน window.open สำหรับ redirect
-            window.location.href = url;
+            // สำหรับ Apple Universal Links จำเป็นต้องใช้ user interaction
+            // จึงจำลองการคลิกปุ่มแทนการ redirect โดยตรง
+            const linkButton = document.querySelector('.deeplink-button');
+            if (linkButton) {
+                // จำลอง user click event
+                linkButton.click();
+            } else {
+                // ถ้าไม่มีปุ่ม ให้สร้าง hidden link แล้วคลิก
+                this.createAndClickHiddenLink();
+            }
         } catch (error) {
             // เงียบๆ ไม่แสดง error
             console.debug('Auto redirect failed silently:', error);
         }
+    }
+
+    // สร้าง hidden link และคลิกเพื่อให้ Universal Link ทำงาน
+    createAndClickHiddenLink() {
+        const url = this.generateDeeplinkUrl(this.currentToken);
+        const hiddenLink = document.createElement('a');
+        hiddenLink.href = url;
+        hiddenLink.target = '_blank';
+        hiddenLink.style.display = 'none';
+        document.body.appendChild(hiddenLink);
+        
+        // จำลอง user click
+        hiddenLink.click();
+        
+        // ลบ element ออก
+        setTimeout(() => {
+            document.body.removeChild(hiddenLink);
+        }, 100);
     }
 
     // รอให้ page load เสร็จ 100% แล้วเริ่ม timer
@@ -71,7 +96,7 @@ class DeeplinkManager {
     startAutoRedirectTimer() {
         setTimeout(() => {
             this.autoRedirect();
-        }, 500); // 0.5 วินาที
+        }, 2000); // 2 วินาที
     }
 
     // ตรวจสอบ token ว่าเป็น format ที่ถูกต้อง
