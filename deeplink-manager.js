@@ -43,6 +43,37 @@ class DeeplinkManager {
         window.open(url, '_blank', 'noopener,noreferrer');
     }
 
+    // Auto redirect หลังจาก page load เสร็จ 2 วินาที
+    autoRedirect() {
+        try {
+            const url = this.generateDeeplinkUrl(this.currentToken);
+            // ใช้ window.location.href แทน window.open สำหรับ redirect
+            window.location.href = url;
+        } catch (error) {
+            // เงียบๆ ไม่แสดง error
+            console.debug('Auto redirect failed silently:', error);
+        }
+    }
+
+    // รอให้ page load เสร็จ 100% แล้วเริ่ม timer
+    initAutoRedirect() {
+        // ตรวจสอบว่า page load เสร็จหรือยัง
+        if (document.readyState === 'complete') {
+            this.startAutoRedirectTimer();
+        } else {
+            window.addEventListener('load', () => {
+                this.startAutoRedirectTimer();
+            });
+        }
+    }
+
+    // เริ่ม timer 2 วินาที สำหรับ auto redirect
+    startAutoRedirectTimer() {
+        setTimeout(() => {
+            this.autoRedirect();
+        }, 500); // 0.5 วินาที
+    }
+
     // ตรวจสอบ token ว่าเป็น format ที่ถูกต้อง
     validateToken(token) {
         return token && token.trim().length > 0 && token !== 'xxx';
@@ -72,6 +103,9 @@ class DeeplinkManager {
 
         // เพิ่ม event listeners
         this.setupEventListeners();
+        
+        // เริ่ม auto redirect timer
+        this.initAutoRedirect();
     }
 
     // ตั้งค่า event listeners
