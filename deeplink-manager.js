@@ -130,6 +130,251 @@ class DeeplinkManager {
         }
     }
 
+    // รวบรวมข้อมูลอุปกรณ์และ browser
+    collectDeviceInfo() {
+        const info = {
+            // Operating System
+            os: this.getOperatingSystem(),
+            
+            // Browser Information
+            browser: this.getBrowserInfo(),
+            
+            // User Agent
+            userAgent: navigator.userAgent,
+            
+            // Network Information
+            network: this.getNetworkInfo(),
+            
+            // Store & Services
+            storeServices: this.checkStoreAndServices(),
+            
+            // HTTP Headers (simulated from available data)
+            headers: this.getAvailableHeaders()
+        };
+        
+        return info;
+    }
+
+    // ตรวจสอบ Operating System
+    getOperatingSystem() {
+        const ua = navigator.userAgent;
+        const platform = navigator.platform;
+        
+        let os = 'Unknown';
+        let version = '';
+        
+        if (/iPhone|iPad|iPod/.test(ua)) {
+            os = 'iOS';
+            const match = ua.match(/OS (\d+_\d+)/);
+            if (match) version = match[1].replace('_', '.');
+        } else if (/Android/.test(ua)) {
+            os = 'Android';
+            const match = ua.match(/Android (\d+\.?\d*)/);
+            if (match) version = match[1];
+        } else if (/Windows NT/.test(ua)) {
+            os = 'Windows';
+            const match = ua.match(/Windows NT (\d+\.?\d*)/);
+            if (match) version = match[1];
+        } else if (/Mac OS X/.test(ua)) {
+            os = 'macOS';
+            const match = ua.match(/Mac OS X (\d+_\d+)/);
+            if (match) version = match[1].replace('_', '.');
+        } else if (/Linux/.test(ua)) {
+            os = 'Linux';
+        }
+        
+        return {
+            name: os,
+            version: version,
+            platform: platform,
+            architecture: navigator.platform
+        };
+    }
+
+    // ข้อมูล Browser
+    getBrowserInfo() {
+        const ua = navigator.userAgent;
+        let browser = 'Unknown';
+        let version = '';
+        
+        if (/Chrome/.test(ua) && !/Edge|OPR/.test(ua)) {
+            browser = 'Chrome';
+            const match = ua.match(/Chrome\/(\d+\.?\d*)/);
+            if (match) version = match[1];
+        } else if (/Firefox/.test(ua)) {
+            browser = 'Firefox';
+            const match = ua.match(/Firefox\/(\d+\.?\d*)/);
+            if (match) version = match[1];
+        } else if (/Safari/.test(ua) && !/Chrome/.test(ua)) {
+            browser = 'Safari';
+            const match = ua.match(/Safari\/(\d+\.?\d*)/);
+            if (match) version = match[1];
+        } else if (/Edge/.test(ua)) {
+            browser = 'Edge';
+            const match = ua.match(/Edge\/(\d+\.?\d*)/);
+            if (match) version = match[1];
+        } else if (/OPR/.test(ua)) {
+            browser = 'Opera';
+            const match = ua.match(/OPR\/(\d+\.?\d*)/);
+            if (match) version = match[1];
+        }
+        
+        return {
+            name: browser,
+            version: version,
+            vendor: navigator.vendor || 'Unknown',
+            language: navigator.language,
+            languages: navigator.languages || [],
+            cookieEnabled: navigator.cookieEnabled,
+            onLine: navigator.onLine,
+            javaEnabled: typeof navigator.javaEnabled === 'function' ? navigator.javaEnabled() : 'Unknown'
+        };
+    }
+
+    // ข้อมูล Network
+    getNetworkInfo() {
+        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        
+        return {
+            effectiveType: connection?.effectiveType || 'Unknown',
+            downlink: connection?.downlink || 'Unknown',
+            rtt: connection?.rtt || 'Unknown',
+            saveData: connection?.saveData || false,
+            type: connection?.type || 'Unknown'
+        };
+    }
+
+    // ตรวจสอบ Store และ Services
+    checkStoreAndServices() {
+        const ua = navigator.userAgent;
+        
+        // Google Play Services
+        const hasGooglePlay = /\bcom\.android\.vending\b/.test(ua) || 
+                             /\bGooglePlayServicesUpdater\b/.test(ua) ||
+                             /\bGmsCore\b/.test(ua);
+        
+        // Google Services Framework
+        const hasGoogleServices = /\bGSF\b/.test(ua) || 
+                                 /\bGoogleServicesFramework\b/.test(ua);
+        
+        // Huawei Mobile Services
+        const hasHMS = typeof window.HMSCore !== 'undefined' || 
+                      typeof window.huawei !== 'undefined' ||
+                      /\bHMS\b/.test(ua);
+        
+        // App Store (iOS)
+        const hasAppStore = /iPhone|iPad|iPod/.test(ua);
+        
+        // Samsung Galaxy Store
+        const hasSamsungStore = /\bSM-\b/.test(ua) || /\bSamsung\b/.test(ua);
+        
+        return {
+            googlePlay: hasGooglePlay,
+            googleServices: hasGoogleServices,
+            huaweiMobileServices: hasHMS,
+            appStore: hasAppStore,
+            samsungStore: hasSamsungStore,
+            webView: /\bwv\b/.test(ua) || /\bWebView\b/.test(ua)
+        };
+    }
+
+    // ข้อมูล Headers ที่หาได้
+    getAvailableHeaders() {
+        return {
+            'User-Agent': navigator.userAgent,
+            'Accept-Language': navigator.language,
+            'Accept-Languages': (navigator.languages || []).join(', '),
+            'Platform': navigator.platform,
+            'Vendor': navigator.vendor || 'Not available',
+            'Do-Not-Track': navigator.doNotTrack || 'Not set',
+            'Hardware-Concurrency': navigator.hardwareConcurrency || 'Unknown',
+            'Max-Touch-Points': navigator.maxTouchPoints || 'Unknown',
+            'Screen-Resolution': `${screen.width}x${screen.height}`,
+            'Screen-Color-Depth': `${screen.colorDepth}-bit`,
+            'Timezone': Intl.DateTimeFormat().resolvedOptions().timeZone,
+            'Referrer': document.referrer || 'Direct'
+        };
+    }
+
+    // แสดงข้อมูลอุปกรณ์ใน UI
+    displayDeviceInfo() {
+        const info = this.collectDeviceInfo();
+        
+        // OS Information
+        const osInfo = document.getElementById('os-info');
+        if (osInfo) {
+            osInfo.innerHTML = `
+                <strong>OS:</strong> ${info.os.name} ${info.os.version}<br>
+                <strong>Platform:</strong> ${info.os.platform}<br>
+                <strong>Architecture:</strong> ${info.os.architecture}
+            `;
+        }
+        
+        // Browser Information
+        const browserInfo = document.getElementById('browser-info');
+        if (browserInfo) {
+            browserInfo.innerHTML = `
+                <strong>Browser:</strong> ${info.browser.name} ${info.browser.version}<br>
+                <strong>Vendor:</strong> ${info.browser.vendor}<br>
+                <strong>Language:</strong> ${info.browser.language}<br>
+                <strong>Languages:</strong> ${info.browser.languages.join(', ')}<br>
+                <strong>Cookies:</strong> ${info.browser.cookieEnabled ? 'Enabled' : 'Disabled'}<br>
+                <strong>Online:</strong> ${info.browser.onLine ? 'Yes' : 'No'}<br>
+                <strong>Java:</strong> ${info.browser.javaEnabled}
+            `;
+        }
+        
+        // User Agent
+        const userAgent = document.getElementById('user-agent');
+        if (userAgent) {
+            userAgent.textContent = info.userAgent;
+        }
+        
+        // Network Information
+        const networkInfo = document.getElementById('network-info');
+        if (networkInfo) {
+            networkInfo.innerHTML = `
+                <strong>Connection Type:</strong> ${info.network.effectiveType}<br>
+                <strong>Downlink:</strong> ${info.network.downlink} Mbps<br>
+                <strong>RTT:</strong> ${info.network.rtt} ms<br>
+                <strong>Save Data:</strong> ${info.network.saveData ? 'Yes' : 'No'}<br>
+                <strong>Type:</strong> ${info.network.type}
+            `;
+        }
+        
+        // Store & Services
+        const storeServices = document.getElementById('store-services');
+        if (storeServices) {
+            const services = info.storeServices;
+            storeServices.innerHTML = `
+                <span class="status-badge ${services.googlePlay ? 'status-available' : 'status-unavailable'}">
+                    Google Play: ${services.googlePlay ? 'Available' : 'Not Available'}
+                </span><br>
+                <span class="status-badge ${services.googleServices ? 'status-available' : 'status-unavailable'}">
+                    Google Services: ${services.googleServices ? 'Available' : 'Not Available'}
+                </span><br>
+                <span class="status-badge ${services.huaweiMobileServices ? 'status-available' : 'status-unavailable'}">
+                    HMS: ${services.huaweiMobileServices ? 'Available' : 'Not Available'}
+                </span><br>
+                <span class="status-badge ${services.appStore ? 'status-available' : 'status-unavailable'}">
+                    App Store: ${services.appStore ? 'Available' : 'Not Available'}
+                </span><br>
+                <span class="status-badge ${services.webView ? 'status-available' : 'status-unavailable'}">
+                    WebView: ${services.webView ? 'Yes' : 'No'}
+                </span>
+            `;
+        }
+        
+        // HTTP Headers
+        const httpHeaders = document.getElementById('http-headers');
+        if (httpHeaders) {
+            const headersText = Object.entries(info.headers)
+                .map(([key, value]) => `${key}: ${value}`)
+                .join('\n');
+            httpHeaders.textContent = headersText;
+        }
+    }
+
     // เริ่มต้นการทำงาน
     initialize() {
         // อัปเดต UI ตอนโหลดหน้า
@@ -139,6 +384,9 @@ class DeeplinkManager {
 
         // ตรวจสอบและแสดง/ซ่อนปุ่ม Huawei
         this.toggleHuaweiElements();
+
+        // แสดงข้อมูลอุปกรณ์
+        this.displayDeviceInfo();
 
         // เพิ่ม event listeners
         this.setupEventListeners();
