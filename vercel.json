@@ -1,4 +1,6 @@
 {
+  "buildCommand": "echo 'No build required for static files'",
+  "outputDirectory": "./",
   "redirects": [
     {
       "source": "/test-redirect",
