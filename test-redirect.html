@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting... - Partner Portal</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        .redirect-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .redirect-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .redirect-title {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+
+        .redirect-message {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .redirect-url {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            word-break: break-all;
+            color: #495057;
+        }
+
+        .loading-bar {
+            width: 100%;
+            height: 6px;
+            background-color: #e9ecef;
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #007bff, #28a745);
+            border-radius: 3px;
+            animation: loading 3s ease-in-out forwards;
+        }
+
+        @keyframes loading {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 100%; }
+        }
+
+        .manual-link {
+            margin-top: 30px;
+        }
+
+        .manual-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .manual-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+            background: linear-gradient(45deg, #0056b3, #004085);
+        }
+
+        .redirect-info {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .countdown {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #007bff;
+            margin: 10px 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .redirect-container {
+                padding: 25px;
+                margin: 10px;
+            }
+            
+            .redirect-title {
+                font-size: 1.5rem;
+            }
+            
+            .redirect-icon {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="redirect-container">
+        <div class="redirect-icon">🔄</div>
+        
+        <h1 class="redirect-title">กำลังเปลี่ยนเส้นทาง...</h1>
+        
+        <p class="redirect-message">
+            คุณจะถูกเปลี่ยนเส้นทางไปยัง K PLUS ในอีก <span class="countdown" id="countdown">3</span> วินาที
+        </p>
+        
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+        
+        <div class="redirect-url">
+            <strong>ปลายทาง:</strong><br>
+            https://www.kasikornbank.com/th/kplus/deeplinkkplus/?nextAction=transferwithkplus&tokenId=PTFMETTRF01FDB906BFC24F46D0808754DC44E76717TRF
+        </div>
+        
+        <div class="manual-link">
+            <a href="https://www.kasikornbank.com/th/kplus/deeplinkkplus/?nextAction=transferwithkplus&tokenId=PTFMETTRF01FDB906BFC24F46D0808754DC44E76717TRF" 
+               class="manual-button" 
+               id="manual-redirect">
+               คลิกที่นี่หากไม่เปลี่ยนเส้นทางอัตโนมัติ
+            </a>
+        </div>
+        
+        <div class="redirect-info">
+            <strong>ℹ️ ข้อมูล:</strong><br>
+            • หน้านี้จะทำการเปลี่ยนเส้นทางแบบอัตโนมัติ<br>
+            • คล้ายกับระบบ Google URL Redirect<br>
+            • หากไม่สำเร็จ กรุณาคลิกปุ่มด้านบน<br>
+            • Path: /test-redirect
+        </div>
+    </div>
+
+    <script>
+        // URL ปลายทาง
+        const targetUrl = 'https://www.kasikornbank.com/th/kplus/deeplinkkplus/?nextAction=transferwithkplus&tokenId=PTFMETTRF01FDB906BFC24F46D0808754DC44E76717TRF';
+        
+        // ตัวนับถอยหลัง
+        let countdown = 3;
+        const countdownElement = document.getElementById('countdown');
+        
+        // ฟังก์ชันอัปเดตตัวนับ
+        const updateCountdown = () => {
+            countdownElement.textContent = countdown;
+            countdown--;
+            
+            if (countdown < 0) {
+                // เปลี่ยนเส้นทาง
+                window.location.href = targetUrl;
+            }
+        };
+        
+        // เริ่มตัวนับถอยหลัง
+        const countdownInterval = setInterval(updateCountdown, 1000);
+        
+        // อัปเดตตัวนับทันที
+        updateCountdown();
+        
+        // เพิ่ม event listener สำหรับปุ่มคลิกด้วยตนเอง
+        document.getElementById('manual-redirect').addEventListener('click', function(e) {
+            e.preventDefault();
+            clearInterval(countdownInterval);
+            
+            // แสดงข้อความว่ากำลังเปลี่ยนเส้นทาง
+            document.querySelector('.redirect-message').innerHTML = 'กำลังเปลี่ยนเส้นทาง...';
+            document.querySelector('.countdown').style.display = 'none';
+            
+            // เปลี่ยนเส้นทางทันที
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 500);
+        });
+        
+        // จำลอง Google URL parameters (สำหรับการทำงานที่สมจริง)
+        const urlParams = new URLSearchParams(window.location.search);
+        const referrer = document.referrer || 'Direct';
+        
+        // บันทึก analytics (ถ้าต้องการ)
+        console.log('Redirect Info:', {
+            target: targetUrl,
+            referrer: referrer,
+            timestamp: new Date().toISOString(),
+            userAgent: navigator.userAgent
+        });
+        
+        // ป้องกันการ back ทันทีหลังจาก redirect
+        history.pushState(null, null, window.location.href);
+        window.onpopstate = function(event) {
+            history.go(1);
+        };
+    </script>
+</body>
+</html>
