@@ -61,14 +61,11 @@ class DeeplinkManager {
         if (isHuawei) {
             if (huaweiButton) {
                 huaweiButton.style.display = 'inline-flex';
-                // Update Huawei button to use API redirect for better app opening
-                huaweiButton.href = '/api/redirect?huawei=true';
             }
             if (huaweiInfo) huaweiInfo.style.display = 'block';
             if (huaweiInstruction) huaweiInstruction.style.display = 'list-item';
             
             console.log('✅ Huawei device detected - showing Huawei elements');
-            console.log('🔧 Huawei button updated to use API redirect for better app compatibility');
         } else {
             if (huaweiButton) huaweiButton.style.display = 'none';
             if (huaweiInfo) huaweiInfo.style.display = 'none';
@@ -76,56 +73,6 @@ class DeeplinkManager {
             
             console.log('❌ Non-Huawei device - hiding Huawei elements');
         }
-    }
-
-    // เพิ่ม method สำหรับ handle deeplink บน Huawei
-    handleHuaweiDeeplink(url) {
-        console.log('🔧 Handling Huawei deeplink:', url);
-        
-        // Multiple strategies for Huawei Browser
-        const strategies = [
-            // Strategy 1: Direct location change
-            () => {
-                window.location.href = url;
-            },
-            
-            // Strategy 2: Create and click hidden link
-            () => {
-                const link = document.createElement('a');
-                link.href = url;
-                link.style.display = 'none';
-                document.body.appendChild(link);
-                
-                const clickEvent = new MouseEvent('click', {
-                    view: window,
-                    bubbles: true,
-                    cancelable: true
-                });
-                link.dispatchEvent(clickEvent);
-                
-                setTimeout(() => {
-                    if (document.body.contains(link)) {
-                        document.body.removeChild(link);
-                    }
-                }, 100);
-            },
-            
-            // Strategy 3: Window.open
-            () => {
-                window.open(url, '_self');
-            }
-        ];
-        
-        // Try each strategy with delays
-        strategies.forEach((strategy, index) => {
-            setTimeout(() => {
-                try {
-                    strategy();
-                } catch (e) {
-                    console.warn(`Huawei redirect strategy ${index + 1} failed:`, e);
-                }
-            }, index * 200);
-        });
     }
 
     // สร้าง URL พร้อม token
