@@ -54,6 +54,12 @@
                 <span class="redirect-icon">🔄</span>
                 Test Redirect
             </a>
+            
+            <a href="/api/redirect-scheme" 
+               class="kbank-scheme-button" target="_blank">
+                <span class="scheme-icon">📲</span>
+                Redirect + Scheme Kbank
+            </a>
         </div>
         
         <div class="info">
@@ -114,6 +120,14 @@
                 </div>
                 <p class="note">* หน้าทดสอบการ redirect แบบ Google URL (path: /test-redirect)</p>
             </div>
+            
+            <div class="link-section">
+                <p><strong>8. K Bank Scheme Redirect:</strong></p>
+                <div class="token-info kbank-scheme-url">
+                    kbank.kplus://resume
+                </div>
+                <p class="note">* Server redirect ไปยัง K Bank app scheme (path: /api/redirect-scheme)</p>
+            </div>
         </div>
 
         <div class="device-info" id="device-info">
@@ -161,6 +175,7 @@
                 <li><strong>Lazada:</strong> คลิกปุ่มสีส้มเพื่อเปิด Lazada</li>
                 <li><strong>LAZADA iOS:</strong> คลิกปุ่มสีน้ำเงินเพื่อเปิด Lazada แบบ direct link</li>
                 <li><strong>Test Redirect:</strong> คลิกปุ่มสีม่วงเพื่อทดสอบระบบ redirect</li>
+                <li><strong>Redirect + Scheme Kbank:</strong> คลิกปุ่มสีน้ำเงินเข้มเพื่อเปิดแอป K Bank ผ่าน scheme</li>
                 <li id="huawei-instruction" style="display: none;"><strong>For Huawei:</strong> คลิกปุ่มสีส้มเพื่อทดสอบ Huawei link</li>
                 <li>Token จะถูกบันทึกไว้ใน browser ของคุณ</li>
                 <li>ลิงก์จะเปิดใน tab ใหม่</li>
