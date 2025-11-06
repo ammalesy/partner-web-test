@@ -68,10 +68,6 @@ export default function handler(req, res) {
 <body>
   <h1>301 Moved Permanently</h1>
   <p>The document has moved <a href="${redirectUrl}">here</a>.</p>
-  <script>
-    // Immediate redirect for browsers that don't follow 301
-    window.location.replace('${redirectUrl}');
-  </script>
 </body>
 </html>`;
   
