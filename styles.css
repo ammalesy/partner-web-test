@@ -136,6 +136,39 @@ h1 {
     font-size: 1.2rem;
 }
 
+/* Google Wrap Button */
+.google-wrap-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 18px 36px;
+    background: linear-gradient(45deg, #4285f4, #34a853);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.google-wrap-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(66, 133, 244, 0.4);
+    background: linear-gradient(45deg, #3367d6, #2d7d32);
+}
+
+.google-wrap-button:active {
+    transform: translateY(0);
+}
+
+.google-icon {
+    font-size: 1.2rem;
+}
+
 .info {
     margin-top: 40px;
     padding: 25px;
@@ -330,7 +363,8 @@ h1 {
     
     .deeplink-button,
     .kbank-button,
-    .huawei-button {
+    .huawei-button,
+    .google-wrap-button {
         padding: 15px 25px;
         font-size: 16px;
     }
