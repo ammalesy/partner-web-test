@@ -3,8 +3,7 @@
     {
       "source": "/test-redirect",
       "destination": "https://www.kasikornbank.com/th/kplus/deeplinkkplus/?nextAction=transferwithkplus&tokenId=PTFMETTRF01FDB906BFC24F46D0808754DC44E76717TRF",
-      "statusCode": 301,
-      "permanent": true
+      "statusCode": 301
     }
   ],
   "headers": [
