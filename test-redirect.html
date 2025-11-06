@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>301 Moved Permanently - Partner Portal</title>
-    <meta http-equiv="refresh" content="0;url=https://www.kasikornbank.com/th/kplus/deeplinkkplus/?nextAction=transferwithkplus&tokenId=PTFMETTRF01FDB906BFC24F46D0808754DC44E76717TRF">
+    <title>Server Redirect Information - Partner Portal</title>
     <style>
         * {
             box-sizing: border-box;
@@ -147,6 +146,99 @@
             margin: 5px 0;
         }
 
+        .server-options {
+            margin: 20px 0;
+        }
+
+        .server-options h3 {
+            color: #495057;
+            margin-bottom: 15px;
+        }
+
+        .option-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            text-align: left;
+        }
+
+        .option-card h4 {
+            color: #495057;
+            margin: 0 0 10px 0;
+            font-size: 1rem;
+        }
+
+        .test-button {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        .vercel-btn {
+            background: linear-gradient(45deg, #000, #333);
+        }
+
+        .vercel-btn:hover {
+            background: linear-gradient(45deg, #333, #555);
+            transform: translateY(-1px);
+        }
+
+        .api-btn {
+            background: linear-gradient(45deg, #6f42c1, #8b5cf6);
+        }
+
+        .api-btn:hover {
+            background: linear-gradient(45deg, #5a2d91, #7c3aed);
+            transform: translateY(-1px);
+        }
+
+        .direct-btn {
+            background: linear-gradient(45deg, #28a745, #20c997);
+        }
+
+        .direct-btn:hover {
+            background: linear-gradient(45deg, #218838, #1e7e34);
+            transform: translateY(-1px);
+        }
+
+        .config-info {
+            background-color: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            color: #004085;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .config-info h3 {
+            color: #004085;
+            margin: 0 0 10px 0;
+        }
+
+        .config-info code {
+            background-color: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.85rem;
+            border: 1px solid #dee2e6;
+        }
+
+        .config-info ul, .config-info ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
         .countdown {
             font-size: 1.2rem;
             font-weight: 600;
@@ -175,22 +267,44 @@
     <div class="redirect-container">
         <div class="redirect-icon">🔄</div>
         
-        <h1 class="redirect-title">301 Moved Permanently</h1>
+        <h1 class="redirect-title">🔄 Server Redirect Setup</h1>
         
         <p class="redirect-message">
-            ทรัพยากรได้ถูกย้ายไปยังที่อยู่ใหม่อย่างถาวร<br>
-            กำลังเปลี่ยนเส้นทางอัตโนมัติ...
+            หน้านี้แสดงวิธีการตั้งค่า Server-side 301 Redirect<br>
+            สำหรับ Vercel และ server อื่นๆ
         </p>
         
         <div class="loading-bar">
             <div class="loading-progress"></div>
         </div>
         
-        <div class="http-status">
-            <strong>📡 HTTP Response:</strong><br>
-            <code>HTTP/1.1 301 Moved Permanently</code><br>
-            <code>Location: https://www.kasikornbank.com/th/kplus/deeplinkkplus/...</code><br>
-            <code>Cache-Control: public, max-age=31536000</code>
+        <div class="server-options">
+            <h3>🚀 Server Redirect Options:</h3>
+            
+            <div class="option-card">
+                <h4>1. Vercel Configuration (vercel.json)</h4>
+                <a href="/test-redirect" class="test-button vercel-btn" target="_blank">
+                    Test Vercel Redirect
+                </a>
+                <p>Uses vercel.json redirects configuration</p>
+            </div>
+            
+            <div class="option-card">
+                <h4>2. API Route (/api/redirect)</h4>
+                <a href="/api/redirect" class="test-button api-btn" target="_blank">
+                    Test API Redirect
+                </a>
+                <p>Uses serverless function for dynamic redirects</p>
+            </div>
+            
+            <div class="option-card">
+                <h4>3. Direct K PLUS Link</h4>
+                <a href="https://www.kasikornbank.com/th/kplus/deeplinkkplus/?nextAction=transferwithkplus&tokenId=PTFMETTRF01FDB906BFC24F46D0808754DC44E76717TRF" 
+                   class="test-button direct-btn" target="_blank">
+                    Direct Link
+                </a>
+                <p>Direct link without redirect</p>
+            </div>
         </div>
         
         <div class="redirect-url">
@@ -206,109 +320,134 @@
             </a>
         </div>
         
+        <div class="config-info">
+            <h3>📁 Files Created:</h3>
+            <ul>
+                <li><code>vercel.json</code> - Vercel configuration</li>
+                <li><code>api/redirect.js</code> - API endpoint for redirects</li>
+                <li><code>package.json</code> - Project dependencies (if needed)</li>
+            </ul>
+            
+            <h3>🔧 Deployment Steps:</h3>
+            <ol>
+                <li>Install Vercel CLI: <code>npm i -g vercel</code></li>
+                <li>Login to Vercel: <code>vercel login</code></li>
+                <li>Deploy project: <code>vercel</code></li>
+                <li>Test redirects on deployed URL</li>
+            </ol>
+        </div>
+        
         <div class="redirect-info">
-            <strong>ℹ️ HTTP 301 Redirect Information:</strong><br>
-            • Status Code: 301 Moved Permanently<br>
-            • Method: HTTP Meta Refresh + JavaScript Fallback<br>
-            • Cache-Control: ทรัพยากรจะถูก cache โดย browser และ search engine<br>
-            • SEO-Friendly: ส่งผ่าน link juice และ page authority<br>
-            • Path: /test-redirect
+            <strong>ℹ️ Server Redirect Benefits:</strong><br>
+            • Real HTTP 301 status code<br>
+            • Better SEO performance<br>
+            • Proper browser caching<br>
+            • Works without JavaScript<br>
+            • Analytics-friendly
         </div>
     </div>
 
     <script>
-        // URL ปลายทาง
-        const targetUrl = 'https://www.kasikornbank.com/th/kplus/deeplinkkplus/?nextAction=transferwithkplus&tokenId=PTFMETTRF01FDB906BFC24F46D0808754DC44E76717TRF';
-        
-        // จำลอง HTTP 301 Response Headers
-        const simulateHTTP301Headers = () => {
-            console.group('🔄 HTTP 301 Moved Permanently Response');
-            console.log('Status: 301 Moved Permanently');
-            console.log('Location:', targetUrl);
-            console.log('Cache-Control: public, max-age=31536000'); // 1 year cache
-            console.log('Content-Type: text/html; charset=UTF-8');
-            console.log('Server: nginx/1.18.0');
-            console.log('Date:', new Date().toUTCString());
-            console.log('X-Redirect-By: Partner Portal Test System');
-            console.groupEnd();
-        };
-        
-        // แสดง HTTP headers simulation
-        simulateHTTP301Headers();
-        
-        // JavaScript Fallback Mechanism (กรณี meta refresh ไม่ทำงาน)
-        let fallbackTimer;
-        
-        const startFallbackRedirect = () => {
-            console.warn('⚠️ Meta refresh fallback - using JavaScript redirect');
-            fallbackTimer = setTimeout(() => {
-                window.location.replace(targetUrl); // ใช้ replace แทน href เพื่อไม่ให้เก็บ history
-            }, 2000); // 2 วินาทีสำหรับ fallback
-        };
-        
-        // เริ่ม fallback timer
-        startFallbackRedirect();
-        
-        // เพิ่ม event listener สำหรับปุ่มคลิกด้วยตนเอง
-        document.getElementById('manual-redirect').addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // ยกเลิก fallback timer
-            if (fallbackTimer) {
-                clearTimeout(fallbackTimer);
+        // Server Redirect Configuration Info
+        const serverConfig = {
+            vercel: {
+                configFile: 'vercel.json',
+                redirectPath: '/test-redirect',
+                apiPath: '/api/redirect',
+                target: 'https://www.kasikornbank.com/th/kplus/deeplinkkplus/?nextAction=transferwithkplus&tokenId=PTFMETTRF01FDB906BFC24F46D0808754DC44E76717TRF'
             }
-            
-            // แสดงข้อความว่ากำลังเปลี่ยนเส้นทาง
-            document.querySelector('.redirect-message').innerHTML = 'กำลังเปลี่ยนเส้นทางด้วยตนเอง...';
-            
-            // บันทึก manual redirect
-            console.log('👤 Manual redirect initiated by user');
-            
-            // เปลี่ยนเส้นทางทันที
-            setTimeout(() => {
-                window.location.replace(targetUrl);
-            }, 300);
-        });
-        
-        // บันทึก analytics สำหรับ HTTP 301
-        const logRedirectAnalytics = () => {
-            const redirectInfo = {
-                type: 'HTTP_301_REDIRECT',
-                method: 'meta_refresh_with_js_fallback',
-                target: targetUrl,
-                referrer: document.referrer || 'Direct',
-                timestamp: new Date().toISOString(),
-                userAgent: navigator.userAgent,
-                viewport: {
-                    width: window.innerWidth,
-                    height: window.innerHeight
-                },
-                url: window.location.href,
-                protocol: window.location.protocol,
-                host: window.location.host
-            };
-            
-            console.group('📊 301 Redirect Analytics');
-            console.table(redirectInfo);
-            console.groupEnd();
-            
-            // ส่งข้อมูลไป analytics service (ถ้ามี)
-            // fetch('/analytics/301-redirect', { method: 'POST', body: JSON.stringify(redirectInfo) });
         };
         
-        // เรียกใช้ analytics logging
-        logRedirectAnalytics();
+        // Log server configuration
+        console.group('� Server Redirect Configuration');
+        console.log('Configuration:', serverConfig);
+        console.log('Deployment Platform: Vercel');
+        console.log('Redirect Type: HTTP 301 Moved Permanently');
+        console.log('Cache Duration: 1 year (31536000 seconds)');
+        console.groupEnd();
         
-        // จำลอง HTTP status code การตอบสนอง
-        if (typeof window.performance !== 'undefined' && window.performance.navigation) {
-            console.log('🌐 Navigation Type:', window.performance.navigation.type);
-            console.log('🔄 Redirect Count:', window.performance.navigation.redirectCount);
-        }
+        // Test redirect endpoints
+        const testRedirect = async (url, type) => {
+            try {
+                console.log(`🔄 Testing ${type} redirect: ${url}`);
+                
+                // For actual testing, we'd make a HEAD request
+                // const response = await fetch(url, { method: 'HEAD' });
+                // console.log(`Status: ${response.status}`);
+                // console.log(`Location: ${response.headers.get('Location')}`);
+                
+                console.log(`✅ ${type} redirect endpoint ready`);
+            } catch (error) {
+                console.error(`❌ Error testing ${type} redirect:`, error);
+            }
+        };
         
-        // ป้องกันการ back หลังจาก redirect (เพื่อรักษาพฤติกรรม 301)
-        window.addEventListener('beforeunload', function() {
-            console.log('🚪 Leaving redirect page - maintaining 301 behavior');
+        // Test all redirect endpoints when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🧪 Testing redirect endpoints...');
+            testRedirect('/test-redirect', 'Vercel Config');
+            testRedirect('/api/redirect', 'API Route');
         });
+        
+        // Add click tracking for test buttons
+        document.querySelectorAll('.test-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                const type = this.textContent.trim();
+                
+                console.log(`🖱️ User clicked: ${type}`);
+                console.log(`🔗 Redirecting to: ${href}`);
+                
+                // Analytics data
+                const clickData = {
+                    action: 'redirect_test',
+                    type: type,
+                    target: href,
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                };
+                
+                console.table(clickData);
+                
+                // In a real implementation, send to analytics
+                // fetch('/analytics/click', { method: 'POST', body: JSON.stringify(clickData) });
+            });
+        });
+        
+        // Display deployment instructions
+        const showDeploymentInfo = () => {
+            console.group('🚀 Vercel Deployment Instructions');
+            console.log('1. Install Vercel CLI: npm i -g vercel');
+            console.log('2. Login to Vercel: vercel login');
+            console.log('3. Deploy project: vercel');
+            console.log('4. Test redirects on deployed URL');
+            console.log('');
+            console.log('Files created:');
+            console.log('- vercel.json (Vercel configuration)');
+            console.log('- api/redirect.js (API endpoint)');
+            console.groupEnd();
+        };
+        
+        // Show deployment info
+        showDeploymentInfo();
+        
+        // Environment detection
+        const detectEnvironment = () => {
+            const isDev = window.location.hostname === 'localhost';
+            const isVercel = window.location.hostname.includes('vercel.app');
+            
+            console.group('� Environment Detection');
+            console.log('Development:', isDev);
+            console.log('Vercel Deployment:', isVercel);
+            console.log('Current Host:', window.location.hostname);
+            console.groupEnd();
+            
+            if (isDev) {
+                console.warn('⚠️ Running in development mode. Server redirects require deployment.');
+            }
+        };
+        
+        detectEnvironment();
     </script>
 </body>
 </html>

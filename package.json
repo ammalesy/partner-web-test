@@ -1,0 +1,26 @@
+{
+  "name": "partner-web-redirect",
+  "version": "1.0.0",
+  "description": "Partner web portal with server-side redirects",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static build complete'",
+    "start": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "redirect",
+    "vercel",
+    "deeplink",
+    "301"
+  ],
+  "author": "Partner Portal Team",
+  "license": "MIT",
+  "devDependencies": {
+    "vercel": "^32.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
