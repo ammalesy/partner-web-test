@@ -235,6 +235,39 @@ h1 {
     font-size: 1.2rem;
 }
 
+/* Lazada Root Button */
+.lazada-root-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 18px 36px;
+    background: linear-gradient(45deg, #6c757d, #5a6268);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.lazada-root-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+    background: linear-gradient(45deg, #5a6268, #495057);
+}
+
+.lazada-root-button:active {
+    transform: translateY(0);
+}
+
+.lazada-root-icon {
+    font-size: 1.2rem;
+}
+
 /* Test Redirect Button */
 .redirect-test-button {
     display: inline-flex;
@@ -472,6 +505,7 @@ h1 {
     .google-wrap-button,
     .lazada-button,
     .lazada-ios-button,
+    .lazada-root-button,
     .redirect-test-button,
     .kbank-scheme-button {
         padding: 15px 25px;
